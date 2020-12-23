@@ -216,10 +216,12 @@ public class RankingsController implements Initializable {
 
     public void fillChoiceBoxes() {
         List<Player> players = Main.players;
-        Collections.sort(players);
-        for(ChoiceBox choiceBox : choiceBoxes) {
-            ObservableList<Player> playerObservableList = FXCollections.observableArrayList(players);
-            choiceBox.setItems(playerObservableList);
+        if(players != null){
+            Collections.sort(players);
+            for(ChoiceBox choiceBox : choiceBoxes) {
+                ObservableList<Player> playerObservableList = FXCollections.observableArrayList(players);
+                choiceBox.setItems(playerObservableList);
+            }
         }
     }
 
@@ -233,7 +235,7 @@ public class RankingsController implements Initializable {
 
     public void readStoredData(){
         List<UserPlayer> userPlayers = user.getUserPlayers();
-        if(userPlayers!=null){
+        if(userPlayers!=null && userPlayers.size() > 0){
             for(int i=0; i<choiceBoxes.size(); i++){
                 choiceBoxes.get(i).setValue(userPlayers.get(i).getPlayer());
             }

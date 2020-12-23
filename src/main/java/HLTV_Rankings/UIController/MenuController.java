@@ -37,5 +37,9 @@ public class MenuController implements Initializable {
         versusButton.setOnAction((event -> {
             mainController.goToVersus(user);
         }));
+
+        settingsButton.setOnAction((event -> {
+            mainController.goToSettings(user);
+        }));
     }
 }

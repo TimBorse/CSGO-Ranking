@@ -311,7 +311,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label text="Result" underline="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Label text="Ergebnis" underline="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                             <font>
                                 <Font name="Arial" size="28.0" />
                             </font>
@@ -416,6 +416,7 @@
                                 <Font name="Arial Black" size="28.0" />
                             </font>
                         </Label>
+                  <Label fx:id="error" GridPane.halignment="CENTER" GridPane.rowIndex="10" />
                     </children>
                 </GridPane>
                 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="641.0" prefWidth="317.0" GridPane.columnIndex="3">
@@ -567,7 +568,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="back" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="51.0" prefWidth="155.0" text="Back to menu" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                <Button fx:id="back" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="51.0" prefWidth="155.0" text="Zurück ins Menü" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                 <Label fx:id="userScore" prefHeight="17.0" prefWidth="149.0" text="0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                     <font>
                         <Font size="40.0" />

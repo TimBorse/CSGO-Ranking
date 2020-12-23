@@ -13,7 +13,7 @@ public class Team {
 
     private String name;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Player> players = new ArrayList<>();
 
     public void addPlayer(Player player){

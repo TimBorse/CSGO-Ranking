@@ -57,6 +57,14 @@ public class MainController{
         }
     }
 
+    public void goToSettings(User user){
+        try {
+            replaceSceneContent("settings.fxml", new SettingsController(this, user));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void replaceSceneContent(String path, Initializable controller) throws Exception{
         FXMLLoader loader = new FXMLLoader();
         String property = System.getProperty("user.dir");

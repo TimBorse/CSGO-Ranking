@@ -1,5 +1,6 @@
 package HLTV_Rankings.UIController;
 
+import HLTV_Rankings.Database.DAOs.UserDao;
 import HLTV_Rankings.Database.DatabaseManager;
 import HLTV_Rankings.Database.Entities.Player;
 import HLTV_Rankings.Database.Entities.User;
@@ -14,6 +15,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -146,6 +148,8 @@ public class VersusController implements Initializable {
     Label result19;
     @FXML
     Label result20;
+    @FXML
+    Label error;
 
     @FXML
     Button back;
@@ -191,8 +195,10 @@ public class VersusController implements Initializable {
             userRanking.add(up.getPlayer());
         }
         try {
-            results = HLTVCrawler.getTop20("https://www.hltv.org/news/28749/top-20-players-of-2019-introduction");
-        } catch (IOException e) {
+            results = HLTVCrawler.getTop20(DatabaseManager.getRankingUrl());
+        } catch (Exception e) {
+            error.setTextFill(Color.web("RED"));
+            error.setText("Angegebene URL konnte nicht geladen werden!");
             e.printStackTrace();
         }
 
@@ -263,8 +269,9 @@ public class VersusController implements Initializable {
         ObservableList<User> obsUsers = FXCollections.observableArrayList(users);
         enemyChoice.setItems(obsUsers);
         enemyChoice.setOnAction((event -> {
+            UserDao userDao = new UserDao();
             enemyRanking = new ArrayList<>();
-            this.enemy = (User) enemyChoice.getValue();
+            this.enemy = userDao.findByName(((User) enemyChoice.getValue()).getName());
             List<UserPlayer> enemyRankingTemp = enemy.getUserPlayers();
             for(UserPlayer up : enemyRankingTemp){
                 enemyRanking.add(up.getPlayer());
@@ -297,11 +304,14 @@ public class VersusController implements Initializable {
                 userList[i].setText(player.getName());
         }
 
-        for (int i = 0; i < resultList.length; i++) {
-            Player player = results.get(i);
-            if (player != null)
-                resultList[i].setText(player.getName());
+        if(results != null){
+            for (int i = 0; i < resultList.length; i++) {
+                Player player = results.get(i);
+                if (player != null)
+                    resultList[i].setText(player.getName());
+            }
         }
+
 
         this.back.setOnAction((event)-> {
             mainController.goToMenu(user);

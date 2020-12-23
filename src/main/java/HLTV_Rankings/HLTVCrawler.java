@@ -1,5 +1,6 @@
 package HLTV_Rankings;
 
+import HLTV_Rankings.Database.DAOs.TeamDao;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,42 +18,55 @@ import java.util.List;
 public class HLTVCrawler {
 
 
-    public void retrieveTop30Teams(String url) throws IOException {
+    public static void retrieveTop30Teams(String url) throws IOException {
+        TeamDao teamDao = new TeamDao();
+        PlayerDao playerDao = new PlayerDao();
         ArrayList<Team> teamsList = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
         Elements teams = doc.select("div[class=ranked-team standard-box]");
         for(Element teamElement : teams){
             Team team;
             try{
-                team = new Team();
-                team.setName(teamElement.select("div[class=teamLine sectionTeamPlayers ]").select("span[class=name]").get(0).wholeText());
-                Elements playersElements = teamElement.select("div[class=rankingNicknames]").select("span");
-                for(Element playerElement : playersElements){
-                    Player player = new Player();
-                    player.setName(playerElement.wholeText());
-                    player.setTeam(team);
-                    DatabaseManager.createPlayer(player);
-                    team.addPlayer(player);
-                }
-                DatabaseManager.createTeam(team);
+                String teamName = teamElement.select("div[class=teamLine sectionTeamPlayers ]").select("span[class=name]").get(0).wholeText();
+                team = createTeamWithPlayers(teamName, teamElement, teamDao, playerDao);
+                //DatabaseManager.createTeam(team);
             }catch (Exception e){
-                team = new Team();
-                team.setName(teamElement.select("div[class=teamLine sectionTeamPlayers teamLineExpanded]").select("span[class=name]").get(0).wholeText());
-                Elements playersElement = teamElement.select("div[class=rankingNicknames]").select("span").select("span");
-                for(Element playerElement : playersElement){
-                    Player player = new Player();
-                    player.setName(playerElement.wholeText());
-                    player.setTeam(team);
-                    DatabaseManager.createPlayer(player);
-                    team.addPlayer(player);
-                }
+                String teamName = teamElement.select("div[class=teamLine sectionTeamPlayers teamLineExpanded]").select("span[class=name]").get(0).wholeText();
+                team = createTeamWithPlayers(teamName, teamElement, teamDao, playerDao);
             }
-            DatabaseManager.createTeam(team);
+            //DatabaseManager.createTeam(team);
             teamsList.add(team);
         }
     }
 
-    public static List<Player> getTop20(String url) throws IOException {
+    private static Team createTeamWithPlayers(String teamName, Element teamElement, TeamDao teamDao, PlayerDao playerDao){
+        Team team;
+        Team foundTeam = teamDao.findByName(teamName);
+        if(foundTeam == null){
+            team = new Team();
+            team.setName(teamName);
+        }else{
+            team = foundTeam;
+        }
+
+        Elements playersElement = teamElement.select("div[class=rankingNicknames]").select("span").select("span");
+        for(Element playerElement : playersElement){
+            Player player;
+            Player foundPlayer = playerDao.findByName(playerElement.wholeText());
+            if(foundPlayer == null){
+                player = new Player();
+                player.setName(playerElement.wholeText());
+                player.setTeam(team);
+            }else{
+                player = foundPlayer;
+                player.setTeam(team);
+            }
+            DatabaseManager.createPlayer(player);
+        }
+        return team;
+    }
+
+    public static List<Player> getTop20Old(String url) throws IOException {
         List<Player> rankings = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
         String test = doc.select("blockquote").get(1).select("p[class=news-block]").outerHtml();
@@ -66,6 +80,23 @@ public class HLTVCrawler {
                 int rank = Integer.parseInt(formattedRanking[0].replace(".", ""));
                 rankings.add(player);
             }
+        }
+        return rankings;
+    }
+
+    public static List<Player> getTop20(String url) throws IOException{
+        PlayerDao playerDao = new PlayerDao();
+        List<Player> rankings = new ArrayList<>();
+        Document doc = Jsoup.connect(url).get();
+        String text = doc.text();
+        text = text.substring(text.indexOf("1. "));
+        String[] ranks = text.split("([\\d]+[.])");
+        for (int i = 1; i <= 20; i++) {
+            String rank = ranks[i];
+            rank = rank.substring(rank.indexOf("\""));
+            rank = rank.split("\"")[1];
+            Player player = playerDao.findByName(rank);
+            rankings.add(player);
         }
         return rankings;
     }

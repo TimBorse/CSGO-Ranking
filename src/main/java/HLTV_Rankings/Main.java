@@ -30,11 +30,9 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         DatabaseManager.createEM();
-        HLTVCrawler crawler = new HLTVCrawler();
-        //crawler.retrieveTop30Teams("https://www.hltv.org/ranking/teams/");
         teams = DatabaseManager.getAllTeams();
         players = DatabaseManager.getAllPlayers();
         launch(args);
-        //ToDo: Settings (Teams neu laden, Ranking URL, Import/Export User)
+
     }
 }

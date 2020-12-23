@@ -11,10 +11,10 @@ public class Player implements Comparable<Player>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String name;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     Team team;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.REMOVE)
     List<UserPlayer> userPlayers;
 
     public Player() {

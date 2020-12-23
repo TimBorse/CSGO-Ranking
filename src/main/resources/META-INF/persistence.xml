@@ -11,6 +11,7 @@
         <class>HLTV_Rankings.Database.Entities.Team</class>
         <class>HLTV_Rankings.Database.Entities.User</class>
         <class>HLTV_Rankings.Database.Entities.UserPlayer</class>
+        <class>HLTV_Rankings.Database.Entities.RankingURL</class>
         <properties>
             <property name="hibernate.connection.driver_class" value="org.sqlite.JDBC"/>
             <property name="hibernate.connection.url" value="jdbc:sqlite:src/main/resources/database/HLTV_Rankings.db"/>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="HLTV-Ranking-URL" />
+      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="311.0">
+         <children>
+            <TextField fx:id="urlText" alignment="TOP_LEFT" prefWidth="225.0" promptText="URL">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Button fx:id="setUrlButton" mnemonicParsing="false" prefWidth="75.0" text="Setzen">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <Button fx:id="refreshTeamsButton" alignment="CENTER" mnemonicParsing="false" prefWidth="300.0" text="Teams / Spieler aktualisieren">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="importButton" mnemonicParsing="false" prefWidth="300.0" text="Nutzer importieren">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="exportButton" mnemonicParsing="false" prefWidth="300.0" text="Nutzer exportieren">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Button>
+      <Button fx:id="backButton" mnemonicParsing="false" prefWidth="300.0" text="Zurück zum Menü">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Button>
+      <Label fx:id="confirmLabel" />
+   </children>
+</VBox>
